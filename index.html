@@ -3,87 +3,98 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>11:11 FOR FATIMA</title>
+<title>CASE 11:11</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0b0014;color:#fff;font-family:Arial;text-align:center;height:100vh;display:flex;flex-direction:column;overflow:hidden}
-h1{font-size:32px;letter-spacing:5px;margin-top:14px;color:#ffd700}
-#sub{color:#aaa;font-size:13px;margin-top:2px}
-#progress{width:80%;height:8px;background:#333;border-radius:10px;margin:14px auto 6px;overflow:hidden}
-#bar{height:100%;width:9%;background:#ffd700;transition:.5s}
-#count{font-size:13px;color:#ffd700}
-#stage{flex:1;display:flex;align-items:center;justify-content:center;padding:20px}
-.door{width:250px;height:360px;background:linear-gradient(180deg,#2a0a4a,#1a0033);border:3px solid #ffd700;border-radius:15px 15px 5px 5px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 0 40px rgba(255,215,0,.4);position:relative}
-.door-num{font-size:70px;font-weight:bold;color:#ffd700}
-.door-label{font-size:15px;letter-spacing:2px;margin-top:10px;color:#fff}
-.door-hint{font-size:12px;color:#aaa;margin-top:20px}
-.reason{font-size:22px;line-height:1.5;padding:0 10px}
-.reason small{display:block;font-size:14px;color:#ffd700;margin-top:15px}
-#hint{font-size:16px;font-weight:bold;color:#ffd700;margin:8px;padding:0 20px}
-#final{position:fixed;top:0;left:0;width:100%;height:100%;background:#0b0014;display:none;flex-direction:column;align-items:center;justify-content:center;padding:30px;z-index:99}
-#final h2{font-size:58px;color:#ffd700;letter-spacing:6px}
-#final h3{font-size:22px;margin-top:10px;line-height:1.4}
-#final p{color:#ccc;font-size:16px;margin-top:15px;line-height:1.6}
-#final button{margin-top:25px;background:#ffd700;color:#000;border:none;padding:13px 35px;border-radius:30px;font-size:16px;font-weight:bold}
-.stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+body{background:#0a0a0a;color:#e0e0e0;font-family:Arial;min-height:100vh}
+.top{background:#111;border-bottom:2px solid #c00;padding:12px 15px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
+.top b{color:#ff2222;letter-spacing:2px}
+.top span{font-size:12px;color:#888}
+.hero{height:210px;background:url('board.jpg') center/cover;position:relative;display:flex;align-items:flex-end}
+.hero:after{content:'';position:absolute;inset:0;background:linear-gradient(transparent, #0a0a0a)}
+.hero div{position:relative;z-index:2;padding:15px}
+.hero h1{font-size:28px;letter-spacing:3px;color:#fff}
+.hero p{font-size:13px;color:#ffcccc}
+.bar{height:6px;background:#222}
+#fill{height:100%;width:9%;background:#c00;transition:.4s}
+.wrap{padding:18px;max-width:520px;margin:auto}
+.card{background:#151515;border:1px solid #2a2a2a;border-radius:12px;padding:18px;margin-top:12px}
+.card h2{font-size:15px;color:#ff2222;letter-spacing:1px}
+.card h3{font-size:20px;margin:10px 0;line-height:1.4}
+.card p{font-size:14px;color:#aaa;line-height:1.6}
+.chat{background:#0f0f0f;border-left:3px solid #c00;padding:12px;margin:12px 0;font-size:14px;line-height:1.6;color:#ccc}
+input{width:100%;padding:14px;background:#000;border:1px solid #333;color:#fff;border-radius:8px;margin-top:12px;font-size:16px;text-transform:uppercase}
+button{width:100%;padding:14px;background:#c00;color:#fff;border:none;border-radius:8px;margin-top:10px;font-size:16px;font-weight:bold}
+button.ghost{background:#222;color:#ccc}
+#msg{font-size:14px;margin-top:10px;min-height:20px;text-align:center}
+#hintBox{font-size:13px;color:#ffcc00;margin-top:8px;display:none}
+.final{position:fixed;inset:0;background:url('forest.jpg') center/cover;display:none;align-items:center;justify-content:center;z-index:99}
+.final-in{background:rgba(0,0,0,.85);padding:30px;border-radius:15px;text-align:center;max-width:90%;border:1px solid #c00}
+.final-in h2{font-size:38px;color:#ff2222;letter-spacing:4px}
+.final-in p{margin-top:15px;line-height:1.7;font-size:16px}
 </style>
 </head>
 <body>
-<div class="stars"></div>
-<h1>11:11</h1>
-<div id="sub">MAKE A WISH - FOR FATIMA</div>
-<div id="progress"><div id="bar"></div></div>
-<div id="count">DOOR 1 OF 11</div>
-<div id="stage"><div class="door" id="door"></div></div>
-<div id="hint">SWIPE UP to open this door</div>
-<div id="final">
-<h2>11:11</h2>
-<h3>YOU MADE IT.<br>MY WISH IS YOU.</h3>
-<p>11 doors, 11 reasons, 1 wish.<br><br>On 11/11 at 11:11, I wish for<br>you, Fatima. Today, tomorrow,<br>and every 11:11 after this.<br><br>Will you be my 11:11 forever?</p>
-<button onclick="location.reload()">REPLAY 11:11</button>
+<div class="top"><b>CASE 11:11</b><span id="lvlTxt">LEVEL 1 / 11</span></div>
+<div class="hero"><div><h1>THE MISSING GIRL</h1><p>11 clues. 1 truth. Only Fatima can solve it.</p></div></div>
+<div class="bar"><div id="fill"></div></div>
+<div class="wrap">
+<div class="card">
+<h2 id="lvl">LEVEL 1 - THE FIRST MESSAGE</h2>
+<h3 id="q">Loading...</h3>
+<div class="chat" id="chat"></div>
+<p id="extra"></p>
+<input id="ans" placeholder="TYPE YOUR ANSWER...">
+<button onclick="check()">UNLOCK NEXT CLUE</button>
+<button class="ghost" onclick="showHint()">NEED A HINT?</button>
+<div id="hintBox"></div>
+<div id="msg"></div>
 </div>
+</div>
+<div class="final" id="final"><div class="final-in"><h2>11:11</h2><p id="finalMsg">You solved all 11 levels.<br><br>Fatima, you were never missing.<br>You were the answer all along.<br><br>On 11/11, my wish is simple:<br><b>Stay. Forever.</b><br><br>Now tell him you found it.</p><button onclick="location.reload()" style="background:#c00">REPLAY CASE</button></div></div>
 <script>
-let reasons=[
-["1","Your smile is my favourite place."],
-["2","You make ordinary days feel magical."],
-["3","Your voice calms my whole world."],
-["4","I think about you at 11:11, every day."],
-["5","You are my peace and my chaos."],
-["6","Every song reminds me of you."],
-["7","You make me want to be better."],
-["8","Your laugh is my favourite sound."],
-["9","Even far away, you feel so close."],
-["10","You are the best part of my day."],
-["11","One last door... my heart is inside."]
+const FINAL_CODE = "FATIMA-11-11-LOVE";
+let levels=[
+{q:"11 + 11 = ?", chat:"UNKNOWN: I left you 11 clues. First one is easy. Don't fail now.", extra:"Solve it to open Level 2.", hint:"22... just add.", a:"22"},
+{q:"Decode this: IDWLPD", chat:"UNKNOWN: Caesar knew it. Shift each letter back by 3.", extra:"Example: D -> A, E -> B. Who is IDWLPD?", hint:"I=F, D=A, W=T... It is a name, 6 letters.", a:"FATIMA"},
+{q:"AMITAF - Read it backwards", chat:"UNKNOWN: Sometimes you have to look back to see the truth.", extra:"Reverse the letters.", hint:"Read from right to left.", a:"FATIMA"},
+{q:"..-. .- - .. -- .-  - Morse Code", chat:"UNKNOWN: Listen. Dots and dashes never lie.", extra:"..-.=F  .-=A  -=T  ..=I  --=M  .-=A", hint:"It spells the same name again.", a:"FATIMA"},
+{q:"6 - 1 - 20 - 9 - 13 - 1  (A=1, B=2...)", chat:"UNKNOWN: Numbers are just letters in disguise.", extra:"6=F, 1=A...", hint:"6=F, 1=A, 20=T, 9=I, 13=M, 1=A", a:"FATIMA"},
+{q:"I am always coming, but I never arrive. What am I?", chat:"UNKNOWN: This one is not a name. Think.", extra:"You say it every day.", hint:"Tomorrow never comes.", a:"TOMORROW"},
+{q:"2, 3, 5, 7, 11, ?  What is next?", chat:"UNKNOWN: Prime suspect. Only primes.", extra:"Prime numbers.", hint:"After 11, next prime is...", a:"13"},
+{q:"1011 in Binary = ? in Decimal", chat:"UNKNOWN: Computers speak in 0 and 1.", extra:"8+0+2+1", hint:"8+2+1 = 11", a:"11"},
+{q:"I have keys but I can't open any lock. What am I?", chat:"UNKNOWN: I make music, not doors.", extra:"Think music.", hint:"Piano", a:"PIANO"},
+{q:"If you have me, you want to share me. If you share me, you don't have me. What am I?", chat:"UNKNOWN: The last riddle before the vault.", extra:"Duskwood fans know this one.", hint:"Everyone keeps one.", a:"SECRET"},
+{q:"FINAL VAULT - ENTER THE CODE HE GAVE YOU", chat:"UNKNOWN: You solved 10 levels. But this vault needs the CODE only HE has. Ask him. The code is long.", extra:"Type the code EXACTLY as he gave you. Example format: FATIMA-11-11-LOVE", hint:"Ask HIM for the code. He has it. No code = No ending.", a:FINAL_CODE}
 ];
 let cur=0;
-let door=document.getElementById('door');
-let hint=document.getElementById('hint');
-let count=document.getElementById('count');
-let bar=document.getElementById('bar');
-function showDoor(i){
-door.innerHTML='<div class="door-num">'+(i+1)+'</div><div class="door-label">DOOR '+(i+1)+'</div><div class="door-hint">SWIPE UP TO OPEN</div>';
-count.textContent='DOOR '+(i+1)+' OF 11';
-bar.style.width=((i+1)/11*100)+'%';
+function render(){
+document.getElementById('lvl').textContent="LEVEL "+(cur+1)+" - "+(cur<10?"CLUE "+(cur+1):"FINAL VAULT");
+document.getElementById('q').textContent=levels[cur].q;
+document.getElementById('chat').textContent=levels[cur].chat;
+document.getElementById('extra').textContent=levels[cur].extra;
+document.getElementById('hintBox').style.display='none';
+document.getElementById('hintBox').textContent="HINT: "+levels[cur].hint;
+document.getElementById('msg').textContent='';
+document.getElementById('ans').value='';
+document.getElementById('lvlTxt').textContent="LEVEL "+(cur+1)+" / 11";
+document.getElementById('fill').style.width=((cur+1)/11*100)+'%';
 }
-function showReason(i){
-door.innerHTML='<div class="reason">REASON '+(i+1)+'<br><br>"'+reasons[i][1]+'"<small>Tap / Swipe to continue...</small></div>';
+function showHint(){document.getElementById('hintBox').style.display='block';}
+function check(){
+let v=document.getElementById('ans').value.trim().toUpperCase();
+if(v===levels[cur].a){
+if(cur===10){document.getElementById('final').style.display='flex'; return;}
+cur++; render();
+document.getElementById('msg').style.color='#00ff66';
+document.getElementById('msg').textContent='CORRECT. Next clue unlocked...';
+}else{
+document.getElementById('msg').style.color='#ff2222';
+document.getElementById('msg').textContent='WRONG. Think again, detective.';
 }
-showDoor(0);
-let state='door';
-let startY=0;
-function next(){
-if(state==='door'){ showReason(cur); state='reason'; hint.textContent='Swipe UP again for next door'; }
-else{
-cur++;
-if(cur>=11){ document.getElementById('final').style.display='flex'; return; }
-showDoor(cur); state='door'; hint.textContent='SWIPE UP to open this door';
 }
-}
-document.addEventListener('touchstart',e=>{startY=e.touches[0].clientY},{passive:true});
-document.addEventListener('touchend',e=>{if(startY-e.changedTouches[0].clientY>50) next();},{passive:true});
-document.addEventListener('mousedown',e=>{startY=e.clientY});
-document.addEventListener('mouseup',e=>{if(startY-e.clientY>50) next();});
+render();
+document.getElementById('ans').addEventListener('keydown',e=>{if(e.key==='Enter') check();});
 </script>
 </body>
 </html>
