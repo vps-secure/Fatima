@@ -3,75 +3,87 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>MATRYOSHKA</title>
+<title>11:11 FOR FATIMA</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#fff5f0;font-family:Arial;text-align:center;height:100vh;display:flex;flex-direction:column;overflow:hidden}
-h1{font-size:24px;letter-spacing:4px;color:#8b0000;margin-top:12px}
-p{color:#888;font-size:13px}
-#stage{flex:1;display:flex;align-items:flex-end;justify-content:center}
-.doll-row{display:flex;align-items:flex-end;gap:4px}
-.doll-img{transition:.4s;filter:drop-shadow(0 10px 15px rgba(0,0,0,.3))}
-.doll-img.dim{opacity:.25;filter:grayscale(1)}
-#hint{font-size:17px;font-weight:bold;color:#8b0000;margin:8px}
-#count{color:#999;font-size:13px;margin-bottom:10px}
-#final{position:fixed;top:0;left:0;width:100%;height:100%;background:#8b0000;color:#fff;display:none;flex-direction:column;align-items:center;justify-content:center;padding:30px;z-index:99}
-#final h2{font-size:30px;line-height:1.3}
-#final p{color:#ffcccc;font-size:17px;margin-top:15px;line-height:1.5}
-#final button{margin-top:25px;background:#fff;color:#8b0000;border:none;padding:13px 35px;border-radius:30px;font-size:16px;font-weight:bold}
+body{background:#0b0014;color:#fff;font-family:Arial;text-align:center;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+h1{font-size:32px;letter-spacing:5px;margin-top:14px;color:#ffd700}
+#sub{color:#aaa;font-size:13px;margin-top:2px}
+#progress{width:80%;height:8px;background:#333;border-radius:10px;margin:14px auto 6px;overflow:hidden}
+#bar{height:100%;width:9%;background:#ffd700;transition:.5s}
+#count{font-size:13px;color:#ffd700}
+#stage{flex:1;display:flex;align-items:center;justify-content:center;padding:20px}
+.door{width:250px;height:360px;background:linear-gradient(180deg,#2a0a4a,#1a0033);border:3px solid #ffd700;border-radius:15px 15px 5px 5px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 0 40px rgba(255,215,0,.4);position:relative}
+.door-num{font-size:70px;font-weight:bold;color:#ffd700}
+.door-label{font-size:15px;letter-spacing:2px;margin-top:10px;color:#fff}
+.door-hint{font-size:12px;color:#aaa;margin-top:20px}
+.reason{font-size:22px;line-height:1.5;padding:0 10px}
+.reason small{display:block;font-size:14px;color:#ffd700;margin-top:15px}
+#hint{font-size:16px;font-weight:bold;color:#ffd700;margin:8px;padding:0 20px}
+#final{position:fixed;top:0;left:0;width:100%;height:100%;background:#0b0014;display:none;flex-direction:column;align-items:center;justify-content:center;padding:30px;z-index:99}
+#final h2{font-size:58px;color:#ffd700;letter-spacing:6px}
+#final h3{font-size:22px;margin-top:10px;line-height:1.4}
+#final p{color:#ccc;font-size:16px;margin-top:15px;line-height:1.6}
+#final button{margin-top:25px;background:#ffd700;color:#000;border:none;padding:13px 35px;border-radius:30px;font-size:16px;font-weight:bold}
+.stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
 </style>
 </head>
 <body>
-<h1>MATRYOSHKA</h1>
-<p>Russian Nesting Dolls</p>
-<div id="stage"><div class="doll-row" id="row"></div></div>
-<div id="hint">SWIPE UP on the BIG doll to open it</div>
-<div id="count">Doll 1 of 7 - Swipe Up</div>
+<div class="stars"></div>
+<h1>11:11</h1>
+<div id="sub">MAKE A WISH - FOR FATIMA</div>
+<div id="progress"><div id="bar"></div></div>
+<div id="count">DOOR 1 OF 11</div>
+<div id="stage"><div class="door" id="door"></div></div>
+<div id="hint">SWIPE UP to open this door</div>
 <div id="final">
-<h2>YOU ARE MY LAST DOLL,<br>MY FOREVER LOVE.</h2>
-<p>Like these dolls, inside my heart<br>there is only you, Fatima.<br>7 dolls, 1 heart, and it's yours.</p>
-<button onclick="location.reload()">PLAY AGAIN</button>
+<h2>11:11</h2>
+<h3>YOU MADE IT.<br>MY WISH IS YOU.</h3>
+<p>11 doors, 11 reasons, 1 wish.<br><br>On 11/11 at 11:11, I wish for<br>you, Fatima. Today, tomorrow,<br>and every 11:11 after this.<br><br>Will you be my 11:11 forever?</p>
+<button onclick="location.reload()">REPLAY 11:11</button>
 </div>
 <script>
-let img="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Matryoshka_dolls.jpg/800px-Matryoshka_dolls.jpg";
-let row=document.getElementById('row');
+let reasons=[
+["1","Your smile is my favourite place."],
+["2","You make ordinary days feel magical."],
+["3","Your voice calms my whole world."],
+["4","I think about you at 11:11, every day."],
+["5","You are my peace and my chaos."],
+["6","Every song reminds me of you."],
+["7","You make me want to be better."],
+["8","Your laugh is my favourite sound."],
+["9","Even far away, you feel so close."],
+["10","You are the best part of my day."],
+["11","One last door... my heart is inside."]
+];
+let cur=0;
+let door=document.getElementById('door');
 let hint=document.getElementById('hint');
 let count=document.getElementById('count');
-let current=0;
-for(let i=0;i<7;i++){
-let im=document.createElement('img'); im.src=img; im.className='doll-img';
-let w=[110,95,80,65,52,40,30][i];
-im.style.width=w+'px'; im.style.height=(w*1.4)+'px'; im.style.objectFit='cover';
-if(i>0) im.classList.add('dim');
-row.appendChild(im);
+let bar=document.getElementById('bar');
+function showDoor(i){
+door.innerHTML='<div class="door-num">'+(i+1)+'</div><div class="door-label">DOOR '+(i+1)+'</div><div class="door-hint">SWIPE UP TO OPEN</div>';
+count.textContent='DOOR '+(i+1)+' OF 11';
+bar.style.width=((i+1)/11*100)+'%';
 }
-function openNext(){
-if(current>=6){
-document.getElementById('final').style.display='flex';
-return;
+function showReason(i){
+door.innerHTML='<div class="reason">REASON '+(i+1)+'<br><br>"'+reasons[i][1]+'"<small>Tap / Swipe to continue...</small></div>';
 }
-let imgs=row.querySelectorAll('.doll-img');
-imgs[current].style.transform='translateY(-100px) scale(0)'; imgs[current].style.opacity='0';
-setTimeout(()=>{
-imgs[current].style.display='none'; current++;
-if(current<7){
-imgs[current].classList.remove('dim');
-count.textContent='Doll '+(current+1)+' of 7 - Swipe Up';
-hint.textContent='One more inside! Swipe UP again!';
-if(current===6) hint.textContent='Last one! Swipe UP for the message!';
-} else {
-document.getElementById('final').style.display='flex';
-}
-},300);
-if(current===6){
-setTimeout(()=>{document.getElementById('final').style.display='flex';},400);
-}
-}
+showDoor(0);
+let state='door';
 let startY=0;
+function next(){
+if(state==='door'){ showReason(cur); state='reason'; hint.textContent='Swipe UP again for next door'; }
+else{
+cur++;
+if(cur>=11){ document.getElementById('final').style.display='flex'; return; }
+showDoor(cur); state='door'; hint.textContent='SWIPE UP to open this door';
+}
+}
 document.addEventListener('touchstart',e=>{startY=e.touches[0].clientY},{passive:true});
-document.addEventListener('touchend',e=>{if(startY-e.changedTouches[0].clientY>60) openNext();},{passive:true});
+document.addEventListener('touchend',e=>{if(startY-e.changedTouches[0].clientY>50) next();},{passive:true});
 document.addEventListener('mousedown',e=>{startY=e.clientY});
-document.addEventListener('mouseup',e=>{if(startY-e.clientY>60) openNext();});
+document.addEventListener('mouseup',e=>{if(startY-e.clientY>50) next();});
 </script>
 </body>
 </html>
