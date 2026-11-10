@@ -2,47 +2,64 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RUSSIAN ROULETTE - DOMINO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>MATRYOSHKA</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0a0a0a;color:#fff;font-family:Arial;text-align:center;height:100vh;display:flex;flex-direction:column;justify-content:center;padding:15px}
-h1{font-size:28px;color:#e60000}
-p{color:#aaa;margin:10px 0 20px;font-size:14px}
-#board{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:380px;margin:0 auto;width:100%}
-.domino{background:#1a1a1a;border:2px solid #333;border-radius:12px;height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.domino.opened{background:#fff;color:#000}
-.domino.bullet{background:#e60000 !important}
-#msg{font-size:22px;font-weight:bold;margin-top:20px;min-height:30px}
-#reset{margin-top:10px;background:#e60000;color:#fff;border:none;padding:12px 30px;border-radius:30px;font-size:16px;display:none}
+body{background:#f5f0e6;font-family:Arial;text-align:center;height:100vh;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+h1{font-size:26px;letter-spacing:3px;color:#8b0000}
+p{color:#666;margin:8px 0 10px;font-size:14px}
+#stage{flex:1;display:flex;align-items:center;justify-content:center;position:relative;touch-action:none}
+.doll{position:absolute;transition:all .5s;cursor:pointer;display:flex;flex-direction:column;align-items:center}
+.doll-body{border-radius:50% 50% 45% 45% / 60% 60% 40% 40%;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(0,0,0,.3);border:3px solid #5a0000;position:relative;overflow:hidden}
+.doll-face{width:45%;height:28%;background:#ffe0c0;border-radius:50%;margin-top:18%;position:relative;z-index:2}
+.doll-face:before,.doll-face:after{content:'';position:absolute;width:12px;height:12px;background:#000;border-radius:50%;top:35%}
+.doll-face:before{left:20%}
+.doll-face:after{right:20%}
+.doll-pattern{width:80%;height:35%;background:#fff8e0;border-radius:20px;margin-top:5%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:bold;color:#8b0000;z-index:2}
+#hint{font-size:18px;font-weight:bold;color:#8b0000;margin:10px}
+#count{color:#999;font-size:13px}
+#msg{font-size:22px;font-weight:bold;color:#8b0000;min-height:30px;margin:10px}
+#reset{background:#8b0000;color:#fff;border:none;padding:12px 30px;border-radius:30px;font-size:16px;display:none}
 </style>
 </head>
 <body>
-<h1>RUSSIAN ROULETTE</h1>
-<p id="hint">HOLD a domino, then LIFT your finger to reveal it</p>
-<div id="board"></div>
+<h1>MATRYOSHKA</h1>
+<p>Russian Nesting Dolls</p>
+<div id="stage"></div>
+<div id="hint">SWIPE UP with your finger to open</div>
+<div id="count">Doll 1 of 7</div>
 <div id="msg"></div>
 <button id="reset" onclick="location.reload()">PLAY AGAIN</button>
 <script>
-const board=document.getElementById('board');
-const msg=document.getElementById('msg');
-const hint=document.getElementById('hint');
-let bullet=Math.floor(Math.random()*6);
-let opened=0; let gameOver=false;
-let vals=[[6,6],[5,3],[4,4],[2,6],[1,5],[3,2]];
-vals.sort(()=>Math.random()-0.5);
-for(let i=0;i<6;i++){
-let d=document.createElement('div'); d.className='domino';
-d.innerHTML='<div style="font-size:32px">• •<br>• •</div><div style="font-size:11px;color:#777">HOLD + LIFT</div>';
-let holding=false;
-d.addEventListener('touchstart',e=>{e.preventDefault(); if(gameOver||d.classList.contains('opened'))return; holding=true; d.style.borderColor='#ffcc00'; hint.textContent='NOW LIFT YOUR FINGER...';});
-d.addEventListener('touchend',e=>{e.preventDefault(); if(!holding)return; holding=false; reveal(d,i);});
-d.addEventListener('mousedown',()=>{if(gameOver||d.classList.contains('opened'))return; holding=true;});
-d.addEventListener('mouseup',()=>{if(!holding)return; holding=false; reveal(d,i);});
-board.appendChild(d);
+let sizes=[300,260,220,180,145,110,80];
+let colors=['#a50000','#c1121f','#d90429','#e63946','#ef233c','#ff4d6d','#ff8fa3'];
+let labels=['7','6','5','4','3','2','1'];
+let current=0;
+let stage=document.getElementById('stage');
+let hint=document.getElementById('hint');
+let count=document.getElementById('count');
+let msg=document.getElementById('msg');
+function showDoll(i){
+stage.innerHTML='';
+let d=document.createElement('div'); d.className='doll';
+let s=sizes[i];
+d.innerHTML='<div class="doll-body" style="width:'+s+'px;height:'+(s*1.25)+'px;background:'+colors[i]+'"><div class="doll-face"></div><div class="doll-pattern">'+labels[i]+'</div></div>';
+stage.appendChild(d);
+count.textContent='Doll '+(i+1)+' of 7';
+if(i===6){hint.textContent='This is the last one!'; msg.textContent='YOU FOUND THE HEART. YOU WIN!'; msg.style.color='#008000'; document.getElementById('reset').style.display='inline-block';}
 }
-function reveal(d,i){
-if(gameOver||d.classList.contains('opened'))return;
-d.classList.add('opened');
-let v=vals[i];
-d.innerHTML='<div style="font-size:24px">'+'• '.repeat(v[0])+'<hr style="width:50px;margin:8px auto">'+'• '.repeat(v[1])+'</div><div>DOMINO '+v[0]+' | '+v[1]+'</div
+showDoll(0);
+let startY=0;
+document.addEventListener('touchstart',e=>{startY=e.touches[0].clientY},{passive:true});
+document.addEventListener('touchend',e=>{
+let endY=e.changedTouches[0].clientY;
+if(startY-endY>50){ // swipe up
+if(current<6){current++; showDoll(current); hint.textContent='Swipe up again! Another one inside!';}
+}
+},{passive:true});
+document.addEventListener('mousedown',e=>{startY=e.clientY});
+document.addEventListener('mouseup',e=>{if(startY-e.clientY>50 && current<6){current++; showDoll(current);}});
+</script>
+</body>
+</html>
