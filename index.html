@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Pour Fatima ❤️</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;min-height:100vh;background:#fff0f5;font-family:system-ui,Arial;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;text-align:center;padding:20px}
+h1{font-size:26px;margin:0 0 5px;color:#d81b60}
+p{color:#666;margin:5px 0 20px}
+#counter{font-weight:800;background:#fff;padding:8px 16px;border-radius:999px;box-shadow:0 5px 15px rgba(0,0,0,.1)}
+#doll{cursor:pointer;transition:transform .25s;filter:drop-shadow(0 15px 20px rgba(0,0,0,.2));user-select:none}
+#doll:active{transform:scale(.92) rotate(-3deg)}
+#hint{margin-top:18px;background:#d81b60;color:#fff;padding:12px 22px;border-radius:999px;font-weight:800;animation:pulse 1s infinite}
+@keyframes pulse{50%{transform:scale(1.06)}}
+#letter{display:none;max-width:420px;background:#fff;padding:28px 22px;border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,.2);animation:pop .6s}
+@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+#letter h2{color:#d81b60;margin-top:0}
+#letter p{color:#333;line-height:1.8;font-size:17px}
+.heart{position:fixed;top:-20px;animation:fall linear forwards;pointer-events:none;font-size:24px}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg);opacity:0}}
+</style>
+</head>
+<body>
+
+<div id="game">
+  <h1>Fatima ❤️</h1>
+  <p>3ndi lik cadeau khasso 20 click<br>11/11 - nhar l-7ob dyalna</p>
+  <div id="counter">0 / 20</div><br>
+  <div id="doll"></div>
+  <div id="hint">👆 Warki 3liha w tle3 l-fo9</div>
+</div>
+
+<div id="letter">
+  <h2>Fatima, 7bibi ❤️</h2>
+  <p>
+    Ila wselti hna, 3refi blli sberti 3lia 20 merra, w ana ghadi nsber 3lik 3omri kamel.<br><br>
+    Nti machi ghir sa7bti, nti rassi, d7kti, w sbab bach kan-btesem kol nhar.<br>
+    F 11/11 bghit n-golik: <b>kan-bghik bzaf, w bghit neb9a m3ak dima.</b><br><br>
+    3id 7ob sa3id a a7san 7aja w9e3at lia ❤️
+  </p>
+  <b>- Mn li kay-mout 3lik</b>
+  <p style="font-size:13px;color:#999">Dir screenshot w siftiha lia 📸</p>
+</div>
+
+<script>
+const dolls = ["🪆","🎀","🌸","💖","🧸","🍓","🌹","🦋","⭐","🍒","💐","🐰","🍫","🌷","💎","🦄","🍭","🎁","👑","❤️"];
+const colors = ["#fff0f5","#ffe4e1","#fff9c4","#e1f5fe","#f3e5f5","#e8f5e9","#fff3e0","#fce4ec","#ede7f6","#e0f2f1","#fff0f5","#ffe4e1","#fff9c4","#e1f5fe","#f3e5f5","#e8f5e9","#fff3e0","#fce4ec","#ede7f6","#ffebee"];
+let n = 0;
+const dollEl = document.getElementById('doll');
+const counter = document.getElementById('counter');
+function render(){
+  let size = 240 - (n * 7);
+  if(size < 90) size = 90;
+  dollEl.style.fontSize = size + 'px';
+  dollEl.textContent = dolls[n % dolls.length];
+  document.body.style.background = colors[n % colors.length];
+  counter.textContent = n + ' / 20';
+}
+render();
+dollEl.addEventListener('click', ()=>{
+  n++;
+  if(n >= 20){
+    document.getElementById('game').style.display='none';
+    document.getElementById('letter').style.display='block';
+    document.body.style.background='#fff0f5';
+    for(let i=0;i<60;i++){
+      let h=document.createElement('div');
+      h.className='heart'; h.textContent=['❤️','💖','💕','🌹'][Math.floor(Math.random()*4)];
+      h.style.left=Math.random()*100+'vw';
+      h.style.animationDuration=(2+Math.random()*2)+'s';
+      document.body.appendChild(h);
+    }
+    return;
+  }
+  render();
+  if(navigator.vibrate) navigator.vibrate(50);
+});
+</script>
+</body>
+</html>
