@@ -21,7 +21,6 @@ body{background:#0a0a0a;color:#e0e0e0;font-family:Arial;min-height:100vh}
 .card{background:#151515;border:1px solid #2a2a2a;border-radius:12px;padding:18px;margin-top:12px}
 .card h2{font-size:15px;color:#ff2222;letter-spacing:1px}
 .card h3{font-size:20px;margin:10px 0;line-height:1.4}
-.card p{font-size:14px;color:#aaa;line-height:1.6}
 .chat{background:#0f0f0f;border-left:3px solid #c00;padding:12px;margin:12px 0;font-size:14px;line-height:1.6;color:#ccc}
 input{width:100%;padding:14px;background:#000;border:1px solid #333;color:#fff;border-radius:8px;margin-top:12px;font-size:16px;text-transform:uppercase}
 button{width:100%;padding:14px;background:#c00;color:#fff;border:none;border-radius:8px;margin-top:10px;font-size:16px;font-weight:bold}
@@ -40,10 +39,9 @@ button.ghost{background:#222;color:#ccc}
 <div class="bar"><div id="fill"></div></div>
 <div class="wrap">
 <div class="card">
-<h2 id="lvl">LEVEL 1 - THE FIRST MESSAGE</h2>
+<h2 id="lvl">LEVEL 1</h2>
 <h3 id="q">Loading...</h3>
 <div class="chat" id="chat"></div>
-<p id="extra"></p>
 <input id="ans" placeholder="TYPE YOUR ANSWER...">
 <button onclick="check()">UNLOCK NEXT CLUE</button>
 <button class="ghost" onclick="showHint()">NEED A HINT?</button>
@@ -51,28 +49,27 @@ button.ghost{background:#222;color:#ccc}
 <div id="msg"></div>
 </div>
 </div>
-<div class="final" id="final"><div class="final-in"><h2>11:11</h2><p id="finalMsg">You solved all 11 levels.<br><br>Fatima, you were never missing.<br>You were the answer all along.<br><br>On 11/11, my wish is simple:<br><b>Stay. Forever.</b><br><br>Now tell him you found it.</p><button onclick="location.reload()" style="background:#c00">REPLAY CASE</button></div></div>
+<div class="final" id="final"><div class="final-in"><h2>11:11</h2><p>You solved all 11 levels.<br><br>Fatima, you were never missing.<br>You were the answer all along.<br><br>On 11/11, my wish is simple:<br><b>Stay. Forever.</b><br><br>Now tell him you found it.</p><button onclick="location.reload()" style="background:#c00">REPLAY CASE</button></div></div>
 <script>
 const FINAL_CODE = "FATIMA-11-11-LOVE";
 let levels=[
-{q:"11 + 11 = ?", chat:"UNKNOWN: I left you 11 clues. First one is easy. Don't fail now.", extra:"Solve it to open Level 2.", hint:"22... just add.", a:"22"},
-{q:"Decode this: IDWLPD", chat:"UNKNOWN: Caesar knew it. Shift each letter back by 3.", extra:"Example: D -> A, E -> B. Who is IDWLPD?", hint:"I=F, D=A, W=T... It is a name, 6 letters.", a:"FATIMA"},
-{q:"AMITAF - Read it backwards", chat:"UNKNOWN: Sometimes you have to look back to see the truth.", extra:"Reverse the letters.", hint:"Read from right to left.", a:"FATIMA"},
-{q:"..-. .- - .. -- .-  - Morse Code", chat:"UNKNOWN: Listen. Dots and dashes never lie.", extra:"..-.=F  .-=A  -=T  ..=I  --=M  .-=A", hint:"It spells the same name again.", a:"FATIMA"},
-{q:"6 - 1 - 20 - 9 - 13 - 1  (A=1, B=2...)", chat:"UNKNOWN: Numbers are just letters in disguise.", extra:"6=F, 1=A...", hint:"6=F, 1=A, 20=T, 9=I, 13=M, 1=A", a:"FATIMA"},
-{q:"I am always coming, but I never arrive. What am I?", chat:"UNKNOWN: This one is not a name. Think.", extra:"You say it every day.", hint:"Tomorrow never comes.", a:"TOMORROW"},
-{q:"2, 3, 5, 7, 11, ?  What is next?", chat:"UNKNOWN: Prime suspect. Only primes.", extra:"Prime numbers.", hint:"After 11, next prime is...", a:"13"},
-{q:"1011 in Binary = ? in Decimal", chat:"UNKNOWN: Computers speak in 0 and 1.", extra:"8+0+2+1", hint:"8+2+1 = 11", a:"11"},
-{q:"I have keys but I can't open any lock. What am I?", chat:"UNKNOWN: I make music, not doors.", extra:"Think music.", hint:"Piano", a:"PIANO"},
-{q:"If you have me, you want to share me. If you share me, you don't have me. What am I?", chat:"UNKNOWN: The last riddle before the vault.", extra:"Duskwood fans know this one.", hint:"Everyone keeps one.", a:"SECRET"},
-{q:"FINAL VAULT - ENTER THE CODE HE GAVE YOU", chat:"UNKNOWN: You solved 10 levels. But this vault needs the CODE only HE has. Ask him. The code is long.", extra:"Type the code EXACTLY as he gave you. Example format: FATIMA-11-11-LOVE", hint:"Ask HIM for the code. He has it. No code = No ending.", a:FINAL_CODE}
+{q:"11 + 11 = ?", chat:"UNKNOWN: First one is easy. Don't fail now.", hint:"Just add them.", a:"22"},
+{q:"Decode: IDWLPD", chat:"UNKNOWN: Caesar knew it.", hint:"Shift each letter back by 3.", a:"FATIMA"},
+{q:"I have 13 hearts, but no body. What am I?", chat:"UNKNOWN: The killer left a card at the scene.", hint:"What do you play poker with?", a:"DECK"},
+{q:"Morse: .-.. --- ...- .", chat:"UNKNOWN: Listen. Dots and dashes never lie.", hint:"4 letters.", a:"LOVE"},
+{q:"19 - 5 - 3 - 18 - 5 - 20", chat:"UNKNOWN: Numbers are just letters in disguise.", hint:"A=1, B=2... You figure out the rest.", a:"SECRET"},
+{q:"I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I?", chat:"UNKNOWN: Shout in the forest. What answers you?", hint:"Your voice comes back.", a:"ECHO"},
+{q:"2, 3, 5, 7, 11, ?", chat:"UNKNOWN: Prime suspect.", hint:"Only primes.", a:"13"},
+{q:"1011 in Binary = ?", chat:"UNKNOWN: Computers speak in 0 and 1.", hint:"Convert it to decimal.", a:"11"},
+{q:"I have keys but I can't open any lock. What am I?", chat:"UNKNOWN: I make music, not doors.", hint:"88 keys.", a:"PIANO"},
+{q:"Who is the missing girl in this case?", chat:"UNKNOWN: You already know her. The whole case is about her.", hint:"6 letters.", a:"FATIMA"},
+{q:"FINAL VAULT - ENTER THE CODE HE GAVE YOU", chat:"UNKNOWN: This vault needs the CODE only HE has. Ask him.", hint:"Ask HIM for the code. No code = No ending.", a:FINAL_CODE}
 ];
 let cur=0;
 function render(){
 document.getElementById('lvl').textContent="LEVEL "+(cur+1)+" - "+(cur<10?"CLUE "+(cur+1):"FINAL VAULT");
 document.getElementById('q').textContent=levels[cur].q;
 document.getElementById('chat').textContent=levels[cur].chat;
-document.getElementById('extra').textContent=levels[cur].extra;
 document.getElementById('hintBox').style.display='none';
 document.getElementById('hintBox').textContent="HINT: "+levels[cur].hint;
 document.getElementById('msg').textContent='';
