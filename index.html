@@ -6,60 +6,72 @@
 <title>MATRYOSHKA</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#f5f0e6;font-family:Arial;text-align:center;height:100vh;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
-h1{font-size:26px;letter-spacing:3px;color:#8b0000}
-p{color:#666;margin:8px 0 10px;font-size:14px}
-#stage{flex:1;display:flex;align-items:center;justify-content:center;position:relative;touch-action:none}
-.doll{position:absolute;transition:all .5s;cursor:pointer;display:flex;flex-direction:column;align-items:center}
-.doll-body{border-radius:50% 50% 45% 45% / 60% 60% 40% 40%;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(0,0,0,.3);border:3px solid #5a0000;position:relative;overflow:hidden}
-.doll-face{width:45%;height:28%;background:#ffe0c0;border-radius:50%;margin-top:18%;position:relative;z-index:2}
-.doll-face:before,.doll-face:after{content:'';position:absolute;width:12px;height:12px;background:#000;border-radius:50%;top:35%}
-.doll-face:before{left:20%}
-.doll-face:after{right:20%}
-.doll-pattern{width:80%;height:35%;background:#fff8e0;border-radius:20px;margin-top:5%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:bold;color:#8b0000;z-index:2}
-#hint{font-size:18px;font-weight:bold;color:#8b0000;margin:10px}
-#count{color:#999;font-size:13px}
-#msg{font-size:22px;font-weight:bold;color:#8b0000;min-height:30px;margin:10px}
-#reset{background:#8b0000;color:#fff;border:none;padding:12px 30px;border-radius:30px;font-size:16px;display:none}
+body{background:#fff5f0;font-family:Arial;text-align:center;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+h1{font-size:24px;letter-spacing:4px;color:#8b0000;margin-top:12px}
+p{color:#888;font-size:13px}
+#stage{flex:1;display:flex;align-items:flex-end;justify-content:center}
+.doll-row{display:flex;align-items:flex-end;gap:4px}
+.doll-img{transition:.4s;filter:drop-shadow(0 10px 15px rgba(0,0,0,.3))}
+.doll-img.dim{opacity:.25;filter:grayscale(1)}
+#hint{font-size:17px;font-weight:bold;color:#8b0000;margin:8px}
+#count{color:#999;font-size:13px;margin-bottom:10px}
+#final{position:fixed;top:0;left:0;width:100%;height:100%;background:#8b0000;color:#fff;display:none;flex-direction:column;align-items:center;justify-content:center;padding:30px;z-index:99}
+#final h2{font-size:30px;line-height:1.3}
+#final p{color:#ffcccc;font-size:17px;margin-top:15px;line-height:1.5}
+#final button{margin-top:25px;background:#fff;color:#8b0000;border:none;padding:13px 35px;border-radius:30px;font-size:16px;font-weight:bold}
 </style>
 </head>
 <body>
 <h1>MATRYOSHKA</h1>
 <p>Russian Nesting Dolls</p>
-<div id="stage"></div>
-<div id="hint">SWIPE UP with your finger to open</div>
-<div id="count">Doll 1 of 7</div>
-<div id="msg"></div>
-<button id="reset" onclick="location.reload()">PLAY AGAIN</button>
+<div id="stage"><div class="doll-row" id="row"></div></div>
+<div id="hint">SWIPE UP on the BIG doll to open it</div>
+<div id="count">Doll 1 of 7 - Swipe Up</div>
+<div id="final">
+<h2>YOU ARE MY LAST DOLL,<br>MY FOREVER LOVE.</h2>
+<p>Like these dolls, inside my heart<br>there is only you, Fatima.<br>7 dolls, 1 heart, and it's yours.</p>
+<button onclick="location.reload()">PLAY AGAIN</button>
+</div>
 <script>
-let sizes=[300,260,220,180,145,110,80];
-let colors=['#a50000','#c1121f','#d90429','#e63946','#ef233c','#ff4d6d','#ff8fa3'];
-let labels=['7','6','5','4','3','2','1'];
-let current=0;
-let stage=document.getElementById('stage');
+let img="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Matryoshka_dolls.jpg/800px-Matryoshka_dolls.jpg";
+let row=document.getElementById('row');
 let hint=document.getElementById('hint');
 let count=document.getElementById('count');
-let msg=document.getElementById('msg');
-function showDoll(i){
-stage.innerHTML='';
-let d=document.createElement('div'); d.className='doll';
-let s=sizes[i];
-d.innerHTML='<div class="doll-body" style="width:'+s+'px;height:'+(s*1.25)+'px;background:'+colors[i]+'"><div class="doll-face"></div><div class="doll-pattern">'+labels[i]+'</div></div>';
-stage.appendChild(d);
-count.textContent='Doll '+(i+1)+' of 7';
-if(i===6){hint.textContent='This is the last one!'; msg.textContent='YOU FOUND THE HEART. YOU WIN!'; msg.style.color='#008000'; document.getElementById('reset').style.display='inline-block';}
+let current=0;
+for(let i=0;i<7;i++){
+let im=document.createElement('img'); im.src=img; im.className='doll-img';
+let w=[110,95,80,65,52,40,30][i];
+im.style.width=w+'px'; im.style.height=(w*1.4)+'px'; im.style.objectFit='cover';
+if(i>0) im.classList.add('dim');
+row.appendChild(im);
 }
-showDoll(0);
+function openNext(){
+if(current>=6){
+document.getElementById('final').style.display='flex';
+return;
+}
+let imgs=row.querySelectorAll('.doll-img');
+imgs[current].style.transform='translateY(-100px) scale(0)'; imgs[current].style.opacity='0';
+setTimeout(()=>{
+imgs[current].style.display='none'; current++;
+if(current<7){
+imgs[current].classList.remove('dim');
+count.textContent='Doll '+(current+1)+' of 7 - Swipe Up';
+hint.textContent='One more inside! Swipe UP again!';
+if(current===6) hint.textContent='Last one! Swipe UP for the message!';
+} else {
+document.getElementById('final').style.display='flex';
+}
+},300);
+if(current===6){
+setTimeout(()=>{document.getElementById('final').style.display='flex';},400);
+}
+}
 let startY=0;
 document.addEventListener('touchstart',e=>{startY=e.touches[0].clientY},{passive:true});
-document.addEventListener('touchend',e=>{
-let endY=e.changedTouches[0].clientY;
-if(startY-endY>50){ // swipe up
-if(current<6){current++; showDoll(current); hint.textContent='Swipe up again! Another one inside!';}
-}
-},{passive:true});
+document.addEventListener('touchend',e=>{if(startY-e.changedTouches[0].clientY>60) openNext();},{passive:true});
 document.addEventListener('mousedown',e=>{startY=e.clientY});
-document.addEventListener('mouseup',e=>{if(startY-e.clientY>50 && current<6){current++; showDoll(current);}});
+document.addEventListener('mouseup',e=>{if(startY-e.clientY>60) openNext();});
 </script>
 </body>
 </html>
